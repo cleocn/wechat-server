@@ -1,52 +1,36 @@
 import { send } from 'micro';
 import { parse } from 'url';
 import AccessToken from './lib/access-token';
+import { STATUS_CODES } from 'http';
+import config from './config';
 
-import dotenv from 'dotenv';
-dotenv.config();
+const { apps, auth } = config;
 
-const { WX_APPS } = process.env;
+if (!apps.length) {
+  throw new Error('No Appid Found');
+}
 
-const apps = {};
-WX_APPS.split(',').map(item => item.split(':')).map(([appid, secret]) => {
-  apps[appid] = new AccessToken(appid, secret);
+const mountedApps = {};
+apps.map(({ appid, secret }) => {
+  mountedApps[appid] = new AccessToken(appid, secret);
 });
 
 export default async function (req, res) {
   Object.assign(req, parse(req.url, true));
 
-  if (!Auth.isValid(req)) {
-    return send(res, 401, 'Unauthorized');
+  if (!auth(req)) {
+    return send(res, 401, STATUS_CODES[401]);
   }
 
   const appid = req.query && req.query.appid;
 
-  if (!appid || !apps[appid]) {
-    return send(res, 404, 'Appid not found');
+  if (!appid || !mountedApps[appid]) {
+    return send(res, 404, `APPID ${STATUS_CODES[404]}`);
   }
 
   let force = false;
   if (req.pathname === '/refresh') force = true;
 
-  const data = await apps[appid].fetch(force);
+  const data = await mountedApps[appid].fetch(force);
   send(res, 200, data);
-}
-
-// your custom auth method
-const Auth = {
-  username: process.env.WX_USERNAME,
-  password: process.env.WX_PASSWORD,
-  isValid(req) {
-    if (!req.headers.authorization) return false;
-
-    const encoded = req.headers.authorization.split(' ')[1];
-    const decoded = new Buffer(encoded, 'base64').toString('utf8');
-    const [username, password] = decoded.split(':');
-
-    if (username === Auth.username && password === Auth.password) {
-      return true;
-    }
-
-    return false;
-  }
 }
