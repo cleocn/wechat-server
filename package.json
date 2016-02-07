@@ -1,0 +1,23 @@
+{
+  "name": "wechat-atm",
+  "version": "0.0.1",
+  "description": "Wechat Access Token Manager",
+  "main": "index.js",
+  "scripts": {
+    "start": "micro -p 3030 index.js"
+  },
+  "keywords": [
+    "wechat",
+    "access_token",
+    "token",
+    "中控服务器",
+    "微信公众平台"
+  ],
+  "author": "feit",
+  "license": "MIT",
+  "dependencies": {
+    "dotenv": "^2.0.0",
+    "micro": "^1.0.3",
+    "request-promise": "^2.0.0"
+  }
+}
