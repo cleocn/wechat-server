@@ -12,7 +12,7 @@ Wechat ATM
 `WX_APPS=${appid1}:${secret1},${appid2}:${secret2}`
 
 ##### 或者修改 `config.js`
-```
+```js
 apps.push({
   appid: 'appid1',
   secret: 'secret1',

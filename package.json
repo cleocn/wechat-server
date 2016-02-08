@@ -1,7 +1,7 @@
 {
   "name": "wechat-atm",
-  "version": "0.0.1",
-  "description": "Wechat Access Token Manager",
+  "version": "0.1.1",
+  "description": "Wechat Access Token Micro Service",
   "main": "index.js",
   "scripts": {
     "start": "micro -p 3030 index.js"
