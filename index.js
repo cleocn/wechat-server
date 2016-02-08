@@ -1,6 +1,6 @@
 import { send } from 'micro';
 import { parse } from 'url';
-import AccessToken from './lib/access-token';
+import TokenManager from 'wechat-token';
 import { STATUS_CODES } from 'http';
 import config from './config';
 
@@ -12,7 +12,15 @@ if (!apps.length) {
 
 const mountedApps = {};
 apps.map(({ appid, secret }) => {
-  mountedApps[appid] = new AccessToken(appid, secret);
+  const app = mountedApps[appid] = {};
+  app.tokenManager = new TokenManager(appid, secret);
+  app.tokenManager.on('token', (token) => {
+    app.accessToken = token;
+  });
+  app.tokenManager.on('error', (err) => {
+    app.error = err;
+  });
+  app.tokenManager.start();
 });
 
 export default async function (req, res) {
@@ -31,6 +39,12 @@ export default async function (req, res) {
   let force = false;
   if (req.pathname === '/refresh') force = true;
 
-  const data = await mountedApps[appid].fetch(force);
+  const error = mountedApps[appid].error;
+  if (error) {
+    send(res, 400, error);
+    return;
+  }
+
+  const data = mountedApps[appid].accessToken;
   send(res, 200, data);
 }
