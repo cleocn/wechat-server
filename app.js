@@ -15,13 +15,17 @@ export default async (req, res) => {
     return send(res, 401, STATUS_CODES[401]);
   }
 
-  const appid = req.query && req.query.appid;
-
-  if (!appid || !tokenManagers[appid]) {
-    return send(res, 404, `APPID ${STATUS_CODES[404]}`);
+  let tokenManager;
+  if (apps.length === 1) {
+    tokenManager = tokenManagers[apps[0].appid];
+  } else {
+    const appid = req.query && req.query.appid;
+    if (appid && tokenManagers[appid]) {
+      tokenManager = tokenManagers[appid];
+    } else {
+      return send(res, 404, `APPID ${STATUS_CODES[404]}`);
+    }
   }
-
-  const tokenManager = tokenManagers[appid];
 
   // proxy wechat api
   if (/cgi-bin/.test(req.pathname)) {
