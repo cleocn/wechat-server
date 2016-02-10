@@ -15,6 +15,7 @@ WX_APPS.split(',').map(item => item.split(':')).map(([appid, secret]) => {
 
 export default {
   apps,
+  port: 3000,
 
   // override this auth method by your self
   auth(req) {
@@ -32,5 +33,5 @@ export default {
     if (username === USERNAME && password === PASSWORD) return true;
 
     return false;
-  }
-}
+  },
+};
