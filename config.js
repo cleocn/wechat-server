@@ -20,17 +20,25 @@ export default {
   // override this auth method by your self
   auth(req) {
     const { AUTH_ENABLE } = process.env;
-    if (!AUTH_ENABLE) return true;
-
-    if (!req.headers.authorization) return false;
+    if (AUTH_ENABLE === '0') return true;
 
     const { USERNAME, PASSWORD } = process.env;
 
-    const encoded = req.headers.authorization.split(' ')[1];
-    const decoded = new Buffer(encoded, 'base64').toString('utf8');
-    const [username, password] = decoded.split(':');
+    // by query params
+    const query = req.query;
+    if (query && query.username && query.password) {
+      const { username, password } = query;
+      if (username === USERNAME && password === PASSWORD) return true;
+    } else {
+      // by authorization header
+      if (!req.headers.authorization) return false;
 
-    if (username === USERNAME && password === PASSWORD) return true;
+      const encoded = req.headers.authorization.split(' ')[1];
+      const decoded = new Buffer(encoded, 'base64').toString('utf8');
+      const [username, password] = decoded.split(':');
+
+      if (username === USERNAME && password === PASSWORD) return true;
+    }
 
     return false;
   },
