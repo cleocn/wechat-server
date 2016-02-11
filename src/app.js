@@ -2,8 +2,8 @@ import { send } from 'micro';
 import { parse } from 'url';
 import { STATUS_CODES } from 'http';
 import config from './config';
-import agent from './lib/agent';
-import tokenManagerFactory from './lib/token-manager-factory';
+import agent from './agent';
+import tokenManagerFactory from './token-manager-factory';
 
 const { apps, auth } = config;
 const tokenManagers = tokenManagerFactory(apps);

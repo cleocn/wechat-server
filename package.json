@@ -1,9 +1,11 @@
 {
   "name": "wechat-server",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Wechat api proxy and access token manager microservice",
   "scripts": {
-    "start": "nodemon --exec babel-node index.js",
+    "compile": "babel --plugins \"transform-runtime\" src --out-dir ./dist",
+    "start": "node ./dist/index.js",
+    "dev": "nodemon --exec babel-node index.js",
     "test": "_mocha --compilers js:babel-core/register tests/**/*.js",
     "test-watch": "npm run test -- --watch"
   },
