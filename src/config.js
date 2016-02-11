@@ -1,7 +1,7 @@
 import dotenv from 'dotenv';
 dotenv.config();
 
-const { WX_APPS } = process.env;
+const { WX_APPS, SERVER_PORT } = process.env;
 
 const apps = [];
 
@@ -15,7 +15,7 @@ WX_APPS.split(',').map(item => item.split(':')).map(([appid, secret]) => {
 
 export default {
   apps,
-  port: 3000,
+  port: SERVER_PORT || 3000,
 
   // override this auth method by your self
   auth(req) {

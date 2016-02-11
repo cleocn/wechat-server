@@ -16,7 +16,9 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 _dotenv2.default.config();
 
-var WX_APPS = process.env.WX_APPS;
+var _process$env = process.env;
+var WX_APPS = _process$env.WX_APPS;
+var SERVER_PORT = _process$env.SERVER_PORT;
 
 
 var apps = [];
@@ -38,7 +40,7 @@ WX_APPS.split(',').map(function (item) {
 
 exports.default = {
   apps: apps,
-  port: 3000,
+  port: SERVER_PORT || 3000,
 
   // override this auth method by your self
   auth: function auth(req) {
@@ -46,9 +48,9 @@ exports.default = {
 
     if (AUTH_ENABLE === '0') return true;
 
-    var _process$env = process.env;
-    var USERNAME = _process$env.USERNAME;
-    var PASSWORD = _process$env.PASSWORD;
+    var _process$env2 = process.env;
+    var USERNAME = _process$env2.USERNAME;
+    var PASSWORD = _process$env2.PASSWORD;
 
     // by query params
 
