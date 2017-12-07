@@ -16,9 +16,9 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 _dotenv2.default.config();
 
-var _process$env = process.env;
-var WX_APPS = _process$env.WX_APPS;
-var SERVER_PORT = _process$env.SERVER_PORT;
+var _process$env = process.env,
+    WX_APPS = _process$env.WX_APPS,
+    SERVER_PORT = _process$env.SERVER_PORT;
 
 
 var apps = [];
@@ -27,10 +27,9 @@ var apps = [];
 WX_APPS.split(',').map(function (item) {
   return item.split(':');
 }).map(function (_ref) {
-  var _ref2 = (0, _slicedToArray3.default)(_ref, 2);
-
-  var appid = _ref2[0];
-  var secret = _ref2[1];
+  var _ref2 = (0, _slicedToArray3.default)(_ref, 2),
+      appid = _ref2[0],
+      secret = _ref2[1];
 
   apps.push({ appid: appid, secret: secret });
 });
@@ -40,7 +39,7 @@ WX_APPS.split(',').map(function (item) {
 
 exports.default = {
   apps: apps,
-  port: SERVER_PORT || 3000,
+  port: SERVER_PORT || 3001,
 
   // override this auth method by your self
   auth: function auth(req) {
@@ -48,16 +47,16 @@ exports.default = {
 
     if (AUTH_ENABLE === '0') return true;
 
-    var _process$env2 = process.env;
-    var USERNAME = _process$env2.USERNAME;
-    var PASSWORD = _process$env2.PASSWORD;
+    var _process$env2 = process.env,
+        USERNAME = _process$env2.USERNAME,
+        PASSWORD = _process$env2.PASSWORD;
 
     // by query params
 
     var query = req.query;
     if (query && query.username && query.password) {
-      var username = query.username;
-      var password = query.password;
+      var username = query.username,
+          password = query.password;
 
       if (username === USERNAME && password === PASSWORD) return true;
     } else {
@@ -67,15 +66,12 @@ exports.default = {
       var encoded = req.headers.authorization.split(' ')[1];
       var decoded = new Buffer(encoded, 'base64').toString('utf8');
 
-      var _decoded$split = decoded.split(':');
+      var _decoded$split = decoded.split(':'),
+          _decoded$split2 = (0, _slicedToArray3.default)(_decoded$split, 2),
+          _username = _decoded$split2[0],
+          _password = _decoded$split2[1];
 
-      var _decoded$split2 = (0, _slicedToArray3.default)(_decoded$split, 2);
-
-      var username = _decoded$split2[0];
-      var password = _decoded$split2[1];
-
-
-      if (username === USERNAME && password === PASSWORD) return true;
+      if (_username === USERNAME && _password === PASSWORD) return true;
     }
 
     return false;

@@ -36,13 +36,13 @@ var _tokenManagerFactory2 = _interopRequireDefault(_tokenManagerFactory);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var apps = _config2.default.apps;
-var auth = _config2.default.auth;
+var apps = _config2.default.apps,
+    auth = _config2.default.auth;
 
 var tokenManagers = (0, _tokenManagerFactory2.default)(apps);
 
 exports.default = function () {
-  var ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee(req, res) {
+  var _ref = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(req, res) {
     var appid, tokenManager, result, force, error, data;
     return _regenerator2.default.wrap(function _callee$(_context) {
       while (1) {
@@ -77,7 +77,7 @@ exports.default = function () {
               break;
             }
 
-            result = undefined;
+            result = void 0;
             _context.prev = 9;
             _context.next = 12;
             return (0, _agent2.default)(req, tokenManager);
@@ -133,9 +133,9 @@ exports.default = function () {
         }
       }
     }, _callee, undefined, [[9, 15]]);
-  })),
-      _this = undefined;
+  }));
+
   return function (_x, _x2) {
-    return ref.apply(_this, arguments);
+    return _ref.apply(this, arguments);
   };
 }();

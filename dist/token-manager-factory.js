@@ -15,8 +15,8 @@ exports.default = function (apps) {
 
   var tokenManagers = {};
   apps.map(function (_ref) {
-    var appid = _ref.appid;
-    var secret = _ref.secret;
+    var appid = _ref.appid,
+        secret = _ref.secret;
 
     var tokenManager = tokenManagers[appid] = {};
     tokenManager.instance = new _wechatToken2.default(appid, secret);

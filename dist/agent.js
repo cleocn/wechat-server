@@ -21,7 +21,7 @@ var _requestPromise2 = _interopRequireDefault(_requestPromise);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.default = function () {
-  var ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee(req, tokenManager) {
+  var _ref = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(req, tokenManager) {
     var query, body, opts, result, errcode;
     return _regenerator2.default.wrap(function _callee$(_context) {
       while (1) {
@@ -31,7 +31,7 @@ exports.default = function () {
 
             query.access_token = tokenManager.accessToken;
 
-            body = undefined;
+            body = void 0;
 
             if (!(req.method === 'POST')) {
               _context.next = 7;
@@ -60,7 +60,7 @@ exports.default = function () {
             result = _context.sent;
             errcode = parseInt(result.errcode, 10);
 
-            if (! ~[40001, 40014, 42001].indexOf(errcode)) {
+            if (!~[40001, 40014, 42001].indexOf(errcode)) {
               _context.next = 18;
               break;
             }
@@ -85,7 +85,8 @@ exports.default = function () {
       }
     }, _callee, this);
   }));
+
   return function (_x, _x2) {
-    return ref.apply(this, arguments);
+    return _ref.apply(this, arguments);
   };
 }();
