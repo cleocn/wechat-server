@@ -28,14 +28,7 @@ export default microSentry(async (req, res) => {
 
   // proxy wechat api
   if (/cgi-bin/.test(req.pathname)) {
-    let result;
-    try {
-      result = await agent(req, tokenManager);
-    } catch (error) {
-      microSentry.captureException(error);
-      return send(res, 400, error);
-    }
-
+    const result = await agent(req, tokenManager);
     return send(res, 200, result);
   }
 
@@ -45,8 +38,7 @@ export default microSentry(async (req, res) => {
 
   const error = tokenManager.error;
   if (error) {
-    microSentry.captureException(error);
-    return send(res, 400, error);
+    throw error;
   }
 
   if (force) {
